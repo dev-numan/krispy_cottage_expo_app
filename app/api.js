@@ -1,27 +1,28 @@
 import axios from "axios";
 
-// Base URL for your API (change accordingly)
-// const BASE_URL = "https://4a4c-39-49-90-100.ngrok-free.app";
-const BASE_URL = "https://krispycottage.com";
+// ✅ Updated Base URL
+const BASE_URL = "https://sdelectronics.krispycottage.com";
 
 // Axios instance with default baseURL
 const api = axios.create({
   baseURL: BASE_URL,
 });
 
+// ✅ Updated Auth Token
+const AUTH_TOKEN = "66810c9f2497e0b72879f6f40";
+
 // Function to fetch categories
 export async function fetchCategories() {
   try {
     const response = await api.get("/mobile/category", {
       headers: {
-        "x-auth-token": "66862b5e6cfb8b8f9127f6a2",
+        "x-auth-token": AUTH_TOKEN,
       },
     });
-
-    return response.data; // Return the data received from the API
+    return response.data;
   } catch (error) {
     console.error("Error fetching categories:", error);
-    throw error; // You can throw the error or handle it as needed
+    throw error;
   }
 }
 
@@ -29,14 +30,13 @@ export async function fetchProductsBySlug(category_slug) {
   try {
     const response = await api.get(`/mobile/category/${category_slug}`, {
       headers: {
-        "x-auth-token": "66862b5e6cfb8b8f9127f6a2", // Your authorization token
+        "x-auth-token": AUTH_TOKEN,
       },
     });
-
-    return response.data; // Return the data received from the API
+    return response.data;
   } catch (error) {
     console.error(`Error fetching category ${category_slug}:`, error);
-    throw error; // You can throw the error or handle it as needed
+    throw error;
   }
 }
 
@@ -44,13 +44,12 @@ export async function addToCart(payload) {
   try {
     const response = await api.post(`/cart`, payload, {
       headers: {
-        "x-auth-token": "66862b5e6cfb8b8f9127f6a2",
+        "x-auth-token": AUTH_TOKEN,
       },
     });
-
     return response;
   } catch (error) {
-    console.error(`Error adding to cart in category ${category_slug}:`, error);
+    console.error(`Error adding to cart:`, error);
     throw error;
   }
 }
@@ -60,10 +59,9 @@ export async function deleteFromCart(payload) {
     const response = await api.delete(`/cart/delete`, {
       data: payload,
       headers: {
-        "x-auth-token": "66862b5e6cfb8b8f9127f6a2",
+        "x-auth-token": AUTH_TOKEN,
       },
     });
-
     return response;
   } catch (error) {
     console.error(`Error removing item from cart:`, error);
@@ -75,10 +73,10 @@ export async function getCart() {
   try {
     const response = await api.get(`/mobile/cart`, {
       headers: {
-        "x-auth-token": "66862b5e6cfb8b8f9127f6a2",
+        "x-auth-token": AUTH_TOKEN,
       },
     });
-    console.log("dddddd", response);
+    console.log("Cart response:", response);
     return response;
   } catch (error) {
     console.error("Error fetching cart data:", error);
@@ -90,10 +88,9 @@ export async function updateCart(payload) {
   try {
     const response = await api.post("/cart/update", payload, {
       headers: {
-        "x-auth-token": "66862b5e6cfb8b8f9127f6a2", // Include your auth token here
+        "x-auth-token": AUTH_TOKEN,
       },
     });
-
     return response;
   } catch (error) {
     console.error(`Error updating cart:`, error);
@@ -104,15 +101,11 @@ export async function updateCart(payload) {
 export async function searchProducts(searchquery, page = 1) {
   try {
     const response = await api.get("/mobile/search", {
-      params: {
-        searchquery,
-        page,
-      },
+      params: { searchquery, page },
       headers: {
-        "x-auth-token": "66862b5e6cfb8b8f9127f6a2", // Include your auth token here
+        "x-auth-token": AUTH_TOKEN,
       },
     });
-
     return response.data;
   } catch (error) {
     console.error("Error fetching search results:", error);
@@ -125,7 +118,7 @@ export async function fetchProductDetails(productId, customerId = null) {
     const response = await api.get(`/mobile/product/${productId}`, {
       params: { customerId },
       headers: {
-        "x-auth-token": "66862b5e6cfb8b8f9127f6a2",
+        "x-auth-token": AUTH_TOKEN,
       },
     });
 
@@ -143,14 +136,14 @@ export async function fetchProductDetails(productId, customerId = null) {
 export async function fetchCheckoutDetails() {
   try {
     const response = await api.get("/mobile/checkout", {
-      withCredentials: true, // Ensures cookies like "cart" are sent
+      withCredentials: true,
       headers: {
-        "x-auth-token": "66862b5e6cfb8b8f9127f6a2", // Replace with real store/user token
+        "x-auth-token": AUTH_TOKEN,
       },
     });
 
     if (response.status === 200) {
-      return response.data; // Contains: products, subtotal, shipping, total
+      return response.data;
     } else {
       console.error("Failed to fetch checkout details:", response);
       throw new Error(
@@ -163,17 +156,15 @@ export async function fetchCheckoutDetails() {
   }
 }
 
-
 export async function checkout(payload) {
   try {
-
-    console.log("payload", payload);
+    console.log("Checkout payload:", payload);
     const response = await api.post("/mobile/placeOrderWithoutDispatching", payload, {
       headers: {
-        "x-auth-token": "66862b5e6cfb8b8f9127f6a2", // Same auth header pattern
+        "x-auth-token": AUTH_TOKEN,
       },
     });
-console.log("responseee", response);
+    console.log("Checkout response:", response);
     return response;
   } catch (error) {
     console.error("Error placing order:", error);
@@ -181,18 +172,17 @@ console.log("responseee", response);
   }
 }
 
-
 export async function getLatestProducts() {
   try {
     const response = await api.get(`/mobile/latestProducts`, {
       headers: {
-        "x-auth-token": "66862b5e6cfb8b8f9127f6a2",
+        "x-auth-token": AUTH_TOKEN,
       },
     });
-    console.log("dddddd", response);
+    console.log("Latest products response:", response);
     return response;
   } catch (error) {
-    console.error("Error fetching cart data:", error);
+    console.error("Error fetching latest products:", error);
     throw error;
   }
 }
